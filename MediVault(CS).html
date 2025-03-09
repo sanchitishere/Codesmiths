@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Emergency Profile</title>
+    <style>
+      :root {
+        --primary: #2563eb;
+        --danger: #dc2626;
+        --success: #16a34a;
+        --background: #f8fafc;
+        --card: #ffffff;
+        --text: #1e293b;
+        --border: #e2e8f0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: var(--background);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .card {
+        background-color: var(--card);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        margin-bottom: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--primary);
+      }
+
+      /* Login Page */
+      .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .login-card {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: background-color 0.3s;
+        text-align: center;
+      }
+
+      .btn:hover {
+        background-color: #1d4ed8;
+      }
+
+      .btn-block {
+        display: block;
+        width: 100%;
+      }
+
+      .btn-danger {
+        background-color: var(--danger);
+      }
+
+      .btn-danger:hover {
+        background-color: #b91c1c;
+      }
+
+      .btn-success {
+        background-color: var(--success);
+      }
+
+      .btn-success:hover {
+        background-color: #15803d;
+      }
+
+      /* Login SOS Button */
+      .login-sos-container {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .login-sos-btn {
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        animation: pulse 2s infinite;
+      }
+
+      /* Dashboard */
+      .dashboard {
+        display: none;
+      }
+
+      .welcome-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .sos-button {
+        padding: 15px 30px;
+        font-size: 20px;
+        font-weight: bold;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+        }
+
+        70% {
+          transform: scale(1.05);
+          box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+        }
+
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+        }
+      }
+
+      .logout-btn {
+        background-color: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .logout-btn:hover {
+        background-color: var(--border);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .info-section h3 {
+        margin-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 5px;
+      }
+
+      .info-item {
+        margin-bottom: 10px;
+      }
+
+      .info-label {
+        font-weight: 500;
+        margin-right: 5px;
+      }
+
+      .contact-item {
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .contact-item:last-child {
+        border-bottom: none;
+      }
+
+      .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        background-color: #fee2e2;
+        color: var(--danger);
+        border: 1px solid #fecaca;
+        display: none;
+      }
+
+      .success-alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        background-color: #dcfce7;
+        color: var(--success);
+        border: 1px solid #bbf7d0;
+        display: none;
+      }
+
+      .tab-buttons {
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 10px;
+        text-align: center;
+        background-color: var(--background);
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.3s;
+      }
+
+      .tab-btn.active {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Registration Form */
+      .register-form {
+        margin-top: 20px;
+      }
+
+      /* QR Code Scanner */
+      #qr-reader {
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      #qr-reader img {
+        width: 100%;
+      }
+
+      .scanner-container {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        .header,
+        .welcome-section {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .sos-button,
+        .login-sos-btn {
+          width: 100%;
+        }
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background-color: var(--card);
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 500px;
+        width: 90%;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .close {
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      /* QR Code Upload */
+      .qr-upload-container {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .qr-upload-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+
+      #qr-upload-preview {
+        max-width: 250px;
+        max-height: 250px;
+        margin: 10px auto;
+        display: none;
+      }
+
+      .or-divider {
+        display: flex;
+        align-items: center;
+        margin: 20px 0;
+      }
+
+      .or-divider::before,
+      .or-divider::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .or-divider-text {
+        padding: 0 10px;
+        color: #94a3b8;
+      }
+
+      .switch-form {
+        margin-top: 15px;
+        text-align: center;
+      }
+
+      .switch-form a {
+        color: var(--primary);
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .switch-form a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login / Register Page -->
+    <div class="login-container" id="authPage">
+      <div class="card login-card">
+        <div class="login-header">
+          <div class="logo">MediVault</div>
+          <h2 id="auth-title">Login to Your Medical Profile</h2>
+        </div>
+
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="login">Login</button>
+          <button class="tab-btn" data-tab="register">Register</button>
+        </div>
+
+        <!-- Login Form -->
+        <div class="tab-content active" id="login-tab">
+          <div class="alert" id="loginAlert">Invalid username or password!</div>
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-block">Log In</button>
+          </form>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="tab-content" id="register-tab">
+          <div class="alert" id="registerAlert">Registration failed!</div>
+          <div class="success-alert" id="registerSuccess">
+            Registration successful! You can now login.
+          </div>
+          <form id="registerForm">
+            <div class="form-group">
+              <label for="reg-username">Username</label>
+              <input
+                type="text"
+                id="reg-username"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="reg-password">Password</label>
+              <input
+                type="password"
+                id="reg-password"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="reg-name">Full Name</label>
+              <input type="text" id="reg-name" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-age">Age</label>
+              <input type="number" id="reg-age" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-gender">Gender</label>
+              <select id="reg-gender" class="form-control" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="reg-address">Address</label>
+              <textarea
+                id="reg-address"
+                class="form-control"
+                rows="2"
+                required
+              ></textarea>
+            </div>
+
+            <div class="qr-upload-container">
+              <h4>Upload Medical QR Code (Optional)</h4>
+              <p>
+                Upload a QR code containing your medical information or scan one
+                using your camera
+              </p>
+              <input
+                type="file"
+                id="qr-file-input"
+                accept="image/*"
+                style="display: none"
+              />
+              <button
+                type="button"
+                id="qr-upload-btn"
+                class="qr-upload-btn"
+                onclick="document.getElementById('qr-file-input').click()"
+              >
+                Select QR Code Image
+              </button>
+              <img id="qr-upload-preview" src="" alt="QR Code Preview" />
+
+              <div class="or-divider">
+                <span class="or-divider-text">OR</span>
+              </div>
+
+              <button type="button" id="scan-qr-btn" class="btn">
+                Scan QR Code with Camera
+              </button>
+              <div id="qr-reader" style="display: none; margin-top: 15px"></div>
+            </div>
+
+            <button type="submit" class="btn btn-block btn-success">
+              Register
+            </button>
+          </form>
+        </div>
+
+        <div class="login-sos-container">
+          <button id="loginSosBtn" class="btn btn-danger login-sos-btn">
+            SOS EMERGENCY
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+      <div class="container">
+        <div class="header">
+          <div class="logo">MediVault</div>
+          <button id="logoutBtn" class="btn logout-btn">Log Out</button>
+        </div>
+
+        <div class="welcome-section">
+          <h1>Your Medical Profile</h1>
+          <button id="sosBtn" class="btn btn-danger sos-button">
+            SOS EMERGENCY
+          </button>
+        </div>
+
+        <div class="grid">
+          <div class="card info-section">
+            <h3>Personal Information</h3>
+            <div class="info-item">
+              <span class="info-label">Name:</span>
+              <span id="userName">Sanchit Lalwani</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Age:</span>
+              <span id="userAge">18</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Gender:</span>
+              <span id="userGender">Male</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Address:</span>
+              <span id="userAddress"
+                >SP 53 Pitampura New Delhi India 110034</span
+              >
+            </div>
+          </div>
+
+          <div class="card info-section">
+            <h3>Medical Information</h3>
+            <div class="info-item">
+              <span class="info-label">Blood Type:</span>
+              <span id="bloodType">O+</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Allergies:</span>
+              <span id="allergies">Penicillin, Peanuts</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Chronic Conditions:</span>
+              <span id="chronicConditions">Asthma, Hypertension</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">High Risk To:</span>
+              <span id="highRiskTo">Respiratory infections</span>
+            </div>
+          </div>
+
+          <div class="card info-section">
+            <h3>Emergency Contacts</h3>
+            <div id="emergencyContacts">
+              <!-- Emergency contacts will be populated here -->
+            </div>
+          </div>
+
+          <div class="card info-section">
+            <h3>Prescriptions</h3>
+            <div id="prescriptions">
+              <!-- Prescriptions will be populated here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOS Modal -->
+    <div id="sosModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 style="color: var(--danger)">Emergency Alert</h2>
+          <span class="close">&times;</span>
+        </div>
+        <p>Emergency services are being contacted. Please stay calm.</p>
+        <p>
+          Your emergency contacts are being notified with your current location.
+        </p>
+        <p>
+          Your medical information will be shared with emergency responders.
+        </p>
+        <div class="modal-actions">
+          <button id="cancelSos" class="btn">Cancel</button>
+          <button id="confirmSos" class="btn btn-danger">
+            Confirm Emergency
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR Scanner Modal -->
+    <div id="qrScannerModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Scan QR Code</h2>
+          <span class="close-scanner">&times;</span>
+        </div>
+        <div id="qr-reader-modal" style="width: 100%"></div>
+        <div class="modal-actions">
+          <button id="cancelScanner" class="btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- HTML5 QR Code Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <script>
+      // Demo data (original)
+      const demoUser = {
+        username: "sanchit",
+        password: "password",
+        personal: {
+          name: "Sanchit Lalwani",
+          age: 18,
+          gender: "Male",
+          address: "SP 53 Pitampura New Delhi India 110034",
+        },
+        medical: {
+          bloodType: "O+",
+          allergies: "Penicillin, Peanuts",
+          chronicConditions: "Asthma, Hypertension",
+          highRiskTo: "Respiratory infections",
+        },
+        emergencyContacts: [
+          {
+            name: "Yashmit Kamal",
+            relationship: "Friend",
+            phone: "0987654321",
+          },
+          {
+            name: "Dr. Triwedi",
+            relationship: "Family Doctor",
+            phone: "0123456789",
+          },
+        ],
+        prescriptions: [
+          {
+            medication: "Albuterol Inhaler",
+            dosage: "2 puffs as needed",
+          },
+          {
+            medication: "Lisinopril",
+            dosage: "10mg once daily",
+          },
+        ],
+      };
+
+      // Database Management (using localStorage)
+      const DB = {
+        // Initialize the database
+        init: function () {
+          if (!localStorage.getItem("users")) {
+            // Initialize with demo user
+            localStorage.setItem("users", JSON.stringify([demoUser]));
+          } else {
+            // Make sure demo user exists
+            const users = JSON.parse(localStorage.getItem("users"));
+            const demoExists = users.some(
+              (user) => user.username === demoUser.username
+            );
+            if (!demoExists) {
+              users.push(demoUser);
+              localStorage.setItem("users", JSON.stringify(users));
+            }
+          }
+        },
+
+        // Register a new user
+        registerUser: function (userData) {
+          const users = JSON.parse(localStorage.getItem("users")) || [];
+
+          // Check if username already exists
+          const userExists = users.some(
+            (user) => user.username === userData.username
+          );
+          if (userExists) {
+            return { success: false, message: "Username already taken" };
+          }
+
+          // Add the new user
+          users.push(userData);
+          localStorage.setItem("users", JSON.stringify(users));
+          return { success: true };
+        },
+
+        // Authenticate a user
+        loginUser: function (username, password) {
+          const users = JSON.parse(localStorage.getItem("users")) || [];
+          const user = users.find(
+            (u) => u.username === username && u.password === password
+          );
+
+          if (user) {
+            // Store current user in session
+            sessionStorage.setItem("currentUser", JSON.stringify(user));
+            return { success: true, user };
+          }
+
+          return { success: false, message: "Invalid username or password" };
+        },
+
+        // Get current logged in user
+        getCurrentUser: function () {
+          return JSON.parse(sessionStorage.getItem("currentUser"));
+        },
+
+        // Update user data
+        updateUser: function (username, userData) {
+          const users = JSON.parse(localStorage.getItem("users")) || [];
+          const userIndex = users.findIndex((u) => u.username === username);
+
+          if (userIndex !== -1) {
+            users[userIndex] = { ...users[userIndex], ...userData };
+            localStorage.setItem("users", JSON.stringify(users));
+
+            // Update session storage if it's the current user
+            const currentUser = this.getCurrentUser();
+            if (currentUser && currentUser.username === username) {
+              sessionStorage.setItem(
+                "currentUser",
+                JSON.stringify(users[userIndex])
+              );
+            }
+
+            return { success: true };
+          }
+
+          return { success: false, message: "User not found" };
+        },
+      };
+
+      // Initialize the database
+      DB.init();
+
+      // DOM Elements
+      const authPage = document.getElementById("authPage");
+      const dashboard = document.getElementById("dashboard");
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+      const loginAlert = document.getElementById("loginAlert");
+      const registerAlert = document.getElementById("registerAlert");
+      const registerSuccess = document.getElementById("registerSuccess");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const sosBtn = document.getElementById("sosBtn");
+      const loginSosBtn = document.getElementById("loginSosBtn");
+      const sosModal = document.getElementById("sosModal");
+      const cancelSos = document.getElementById("cancelSos");
+      const confirmSos = document.getElementById("confirmSos");
+      const closeModal = document.querySelector(".close");
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabContents = document.querySelectorAll(".tab-content");
+      const qrFileInput = document.getElementById("qr-file-input");
+      const qrUploadPreview = document.getElementById("qr-upload-preview");
+      const scanQrBtn = document.getElementById("scan-qr-btn");
+      const qrScannerModal = document.getElementById("qrScannerModal");
+      const closeScanner = document.querySelector(".close-scanner");
+      const cancelScanner = document.getElementById("cancelScanner");
+
+      // Tab switching
+      tabBtns.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          // Remove active class from all buttons and contents
+          tabBtns.forEach((b) => b.classList.remove("active"));
+          tabContents.forEach((c) => c.classList.remove("active"));
+
+          // Add active class to clicked button and corresponding content
+          btn.classList.add("active");
+          document
+            .getElementById(`${btn.dataset.tab}-tab`)
+            .classList.add("active");
+        });
+      });
+
+      // Login form submission
+      loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        const result = DB.loginUser(username, password);
+
+        if (result.success) {
+          authPage.style.display = "none";
+          dashboard.style.display = "block";
+          loadUserData(result.user);
+
+          // Clear form
+          loginForm.reset();
+          loginAlert.style.display = "none";
+        } else {
+          loginAlert.textContent =
+            result.message || "Invalid username or password!";
+          loginAlert.style.display = "block";
+          setTimeout(() => {
+            loginAlert.style.display = "none";
+          }, 3000);
+        }
+      });
+
+      // Registration form submission
+      registerForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const userData = {
+          username: document.getElementById("reg-username").value,
+          password: document.getElementById("reg-password").value,
+          personal: {
+            name: document.getElementById("reg-name").value,
+            age: document.getElementById("reg-age").value,
+            gender: document.getElementById("reg-gender").value,
+            address: document.getElementById("reg-address").value,
+          },
+          medical: {
+            bloodType: "",
+            allergies: "",
+            chronicConditions: "",
+            highRiskTo: "",
+          },
+          emergencyContacts: [],
+          prescriptions: [],
+        };
+
+        // Check if QR code data exists and add it
+        if (window.qrCodeData) {
+          try {
+            const qrData = JSON.parse(window.qrCodeData);
+            userData.medical = qrData.medical || userData.medical;
+            userData.emergencyContacts =
+              qrData.emergencyContacts || userData.emergencyContacts;
+            userData.prescriptions =
+              qrData.prescriptions || userData.prescriptions;
+          } catch (error) {
+            console.error("Error parsing QR code data:", error);
+          }
+        }
+
+        const result = DB.registerUser(userData);
+
+        if (result.success) {
+          registerSuccess.style.display = "block";
+          registerAlert.style.display = "none";
+          registerForm.reset();
+          qrUploadPreview.style.display = "none";
+          window.qrCodeData = null;
+
+          // Switch to login tab after 2 seconds
+          setTimeout(() => {
+            tabBtns[0].click(); // Click on login tab
+            registerSuccess.style.display = "none";
+          }, 2000);
+        } else {
+          registerAlert.textContent = result.message || "Registration failed!";
+          registerAlert.style.display = "block";
+          registerSuccess.style.display = "none";
+          setTimeout(() => {
+            registerAlert.style.display = "none";
+          }, 3000);
+        }
+      });
+
+      // Logout
+      logoutBtn.addEventListener("click", function () {
+        dashboard.style.display = "none";
+        authPage.style.display = "flex";
+        sessionStorage.removeItem("currentUser");
+      });
+
+      // SOS Button (Dashboard)
+      sosBtn.addEventListener("click", function () {
+        sosModal.style.display = "flex";
+      });
+
+      // SOS Button (Login Page)
+      loginSosBtn.addEventListener("click", function () {
+        sosModal.style.display = "flex";
+      });
+
+      // Modal close buttons
+      closeModal.addEventListener("click", function () {
+        sosModal.style.display = "none";
+      });
+
+      cancelSos.addEventListener("click", function () {
+        sosModal.style.display = "none";
+      });
+
+      confirmSos.addEventListener("click", function () {
+        alert("Emergency services have been notified. Help is on the way.");
+        sosModal.style.display = "none";
+      });
+
+      // Close modal when clicking outside
+      window.addEventListener("click", function (event) {
+        if (event.target === sosModal) {
+          sosModal.style.display = "none";
+        }
+        if (event.target === qrScannerModal) {
+          qrScannerModal.style.display = "none";
+          if (html5QrCodeScanner) {
+            html5QrCodeScanner.clear();
+          }
+        }
+      });
+
+      // QR Code file upload handling
+      qrFileInput.addEventListener("change", function (e) {
+        if (e.target.files && e.target.files[0]) {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            qrUploadPreview.src = e.target.result;
+            qrUploadPreview.style.display = "block";
+
+            // Decode QR code from image
+            const html5QrCode = new Html5Qrcode("qr-reader");
+            html5QrCode
+              .scanFile(file, true)
+              .then((decodedText) => {
+                // Store QR code data
+                window.qrCodeData = decodedText;
+                alert("QR Code scanned successfully! Medical data extracted.");
+              })
+              .catch((err) => {
+                console.error("Error scanning QR code:", err);
+                alert(
+                  "Could not read QR code from image. Please try another image or scan with camera."
+                );
+              });
+          };
+
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // QR Code Scanner
+      let html5QrCodeScanner;
+
+      scanQrBtn.addEventListener("click", function () {
+        qrScannerModal.style.display = "flex";
+
+        html5QrCodeScanner = new Html5QrcodeScanner("qr-reader-modal", {
+          fps: 10,
+          qrbox: 250,
+        });
+
+        html5QrCodeScanner.render((decodedText) => {
+          // Store QR code data
+          window.qrCodeData = decodedText;
+
+          // Close scanner
+          qrScannerModal.style.display = "none";
+          html5QrCodeScanner.clear();
+
+          alert("QR Code scanned successfully! Medical data extracted.");
+        });
+      });
+
+      // Close scanner modal
+      closeScanner.addEventListener("click", function () {
+        qrScannerModal.style.display = "none";
+        if (html5QrCodeScanner) {
+          html5QrCodeScanner.html5QrCodeScanner.clear();
+        }
+      });
+
+      cancelScanner.addEventListener("click", function () {
+        qrScannerModal.style.display = "none";
+        if (html5QrCodeScanner) {
+          html5QrCodeScanner.clear();
+        }
+      });
+
+      // Load user data
+      function loadUserData(userData) {
+        // Personal Information
+        document.getElementById("userName").textContent =
+          userData.personal.name;
+        document.getElementById("userAge").textContent = userData.personal.age;
+        document.getElementById("userGender").textContent =
+          userData.personal.gender;
+        document.getElementById("userAddress").textContent =
+          userData.personal.address;
+
+        // Medical Information
+        document.getElementById("bloodType").textContent =
+          userData.medical.bloodType || "Not provided";
+        document.getElementById("allergies").textContent =
+          userData.medical.allergies || "None";
+        document.getElementById("chronicConditions").textContent =
+          userData.medical.chronicConditions || "None";
+        document.getElementById("highRiskTo").textContent =
+          userData.medical.highRiskTo || "None";
+
+        // Emergency Contacts
+        const contactsContainer = document.getElementById("emergencyContacts");
+        contactsContainer.innerHTML = "";
+
+        if (
+          userData.emergencyContacts &&
+          userData.emergencyContacts.length > 0
+        ) {
+          userData.emergencyContacts.forEach((contact) => {
+            const contactElement = document.createElement("div");
+            contactElement.className = "contact-item";
+            contactElement.innerHTML = `
+              <div class="info-item">
+                <span class="info-label">Name:</span>
+                <span>${contact.name}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Relationship:</span>
+                <span>${contact.relationship}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Phone:</span>
+                <span>${contact.phone}</span>
+              </div>
+            `;
+            contactsContainer.appendChild(contactElement);
+          });
+        } else {
+          contactsContainer.innerHTML = "<p>No emergency contacts added</p>";
+        }
+
+        // Prescriptions
+        const prescriptionsContainer = document.getElementById("prescriptions");
+        prescriptionsContainer.innerHTML = "";
+
+        if (userData.prescriptions && userData.prescriptions.length > 0) {
+          userData.prescriptions.forEach((prescription, index) => {
+            const prescriptionElement = document.createElement("div");
+            prescriptionElement.innerHTML = `
+              <div class="info-item">
+                <span class="info-label">Medication:</span>
+                <span>${prescription.medication}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Dosage:</span>
+                <span>${prescription.dosage}</span>
+              </div>
+            `;
+
+            if (index < userData.prescriptions.length - 1) {
+              prescriptionElement.innerHTML += `<hr style="margin: 10px 0; border-color: var(--border);">`;
+            }
+
+            prescriptionsContainer.appendChild(prescriptionElement);
+          });
+        } else {
+          prescriptionsContainer.innerHTML = "<p>No prescriptions added</p>";
+        }
+      }
+
+      // Check if user is already logged in (session persistence)
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentUser = DB.getCurrentUser();
+        if (currentUser) {
+          authPage.style.display = "none";
+          dashboard.style.display = "block";
+          loadUserData(currentUser);
+        }
+      });
+
+      // Sample data for QR code generation (for testing purposes)
+      const sampleQRData = {
+        medical: {
+          bloodType: "O+",
+          allergies: "Penicillin, Peanuts",
+          chronicConditions: "Asthma, Hypertension",
+          highRiskTo: "Respiratory infections",
+        },
+        emergencyContacts: [
+          {
+            name: "Yashmit Kamal",
+            relationship: "Friend",
+            phone: "0987654321",
+          },
+          {
+            name: "Dr. Triwedi",
+            relationship: "Family Doctor",
+            phone: "0123456789",
+          },
+        ],
+        prescriptions: [
+          {
+            medication: "Albuterol Inhaler",
+            dosage: "2 puffs as needed",
+          },
+          {
+            medication: "Lisinopril",
+            dosage: "10mg once daily",
+          },
+        ],
+      };
+
+      // For demonstration purposes - you can generate a QR code with this data using an online tool
+      console.log("Sample QR Data:", JSON.stringify(sampleQRData));
+    </script>
+  </body>
+</html>
