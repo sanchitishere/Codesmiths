@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - MedAlert{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="container">
+        <div class="header">
+            <div class="logo">MedAlert</div>
+            <a href="{{ url_for('logout') }}" class="btn logout-btn">Log Out</a>
+        </div>
+
+        <div class="welcome-section">
+            <h1>Medical Profile</h1>
+            <a href="{{ url_for('sos') }}" class="btn btn-danger sos-button">
+                SOS EMERGENCY
+            </a>
+        </div>
+
+        
